@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="ToDoRealm.Views.ToDoItemPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancel" Command="{Binding CancelButtonCommand}" />
+        <ToolbarItem Text="Save" Command="{Binding SaveButtonCommand}" />
+        <ToolbarItem Text="Delete" Command="{Binding DeleteButtonCommand}" />
+    </ContentPage.ToolbarItems>
+    <StackLayout Spacing="0" Padding="15" VerticalOptions="StartAndExpand">
+        <Label Text="Name" FontSize="Medium" />
+        <Entry Text="{Binding Name}" FontSize="Small" />
+        <Label Text="Notes" FontSize="Medium" Margin="0,10,0,0" />
+        <Editor Text="{Binding Description}" FontSize="Small" Margin="0" />
+        <Label Text="Done" Margin="0,10,0,0" />
+        <Switch HorizontalOptions="Start" IsToggled="{Binding Done}" />
+    </StackLayout>
+</ContentPage>
