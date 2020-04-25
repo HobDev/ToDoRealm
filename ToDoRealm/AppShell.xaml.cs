@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using ToDoRealm.Views;
 using Xamarin.Forms;
 
 namespace ToDoRealm
@@ -10,6 +10,7 @@ namespace ToDoRealm
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute("itempage", typeof(ToDoItemPage));
         }
     }
 }

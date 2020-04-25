@@ -18,33 +18,13 @@ namespace ToDoRealm.Views
     public partial class ToDoListPage : ContentPage
     {
 
-
-        ToDoListViewModel viewModel;
-
         public ToDoListPage()
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new ToDoListViewModel();
+            BindingContext = new ToDoListViewModel();
 
         }
-
-        public void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem == null)
-                return;
-            ToDoItem item = e.SelectedItem as ToDoItem;
-            string id = item.Id;
-            viewModel.ItemSelectedCommand.Execute(id);
-            ItemsListView.SelectedItem = null;
-        }
-
-        public void OnItemTapped(object sender, ItemTappedEventArgs e)
-        {
-
-        }
-
-
 
 
     }

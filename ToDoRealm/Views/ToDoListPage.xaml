@@ -1,30 +1,34 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="ToDoRealm.Views.ToDoListPage" Title="{Binding Title}">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="ToDoRealm.Views.ToDoListPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+        <ToolbarItem Command="{Binding AddItemCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
     <StackLayout>
-        <!--<CollectionView x:Name="ItemsCollectionView" ItemsSource="{Binding Items,Mode=TwoWay}" SelectionMode="Single" SelectionChangedCommand="{Binding ItemSelectedCommand}" SelectedItem="{Binding SelectedItem}">
+        <CollectionView x:Name="ItemsCollectionView"
+                        ItemsSource="{Binding Items}"
+                        SelectedItem="{Binding SelectedItem}"
+                        SelectionChangedCommand="{Binding ItemSelectedCommand}"
+                        SelectionMode="Single">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10">
-                        <Label Text="{Binding Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-                        <Label Text="{Binding Description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                        <Label FontSize="16"
+                               LineBreakMode="NoWrap"
+                               Style="{DynamicResource ListItemTextStyle}"
+                               Text="{Binding Name}" />
+                        <Label FontSize="13"
+                               LineBreakMode="NoWrap"
+                               Style="{DynamicResource ListItemDetailTextStyle}"
+                               Text="{Binding Description}" />
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>-->
-        <ListView x:Name="ItemsListView" ItemTapped="OnItemTapped" HasUnevenRows="true" ItemsSource="{Binding Items}" ItemSelected="OnItemSelected" SelectedItem="{Binding SelectedItem}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-                            <Label Text="{Binding Description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        </CollectionView>
+
     </StackLayout>
 </ContentPage>

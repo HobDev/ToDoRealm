@@ -2,7 +2,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using PropertyChanged;
 using Xamarin.Forms;
 
 using ToDoRealm.Models;
@@ -10,26 +9,23 @@ using ToDoRealm.Views;
 using System.Windows.Input;
 using Realms;
 using System.Collections.Generic;
+using ReactiveUI.Fody.Helpers;
 
 namespace ToDoRealm.ViewModels
 {
 
-    public class ToDoListViewModel : BaseViewModel
+    public class ToDoListViewModel
     {
 
         Realm _realm;
 
-        public object SelectedItem
-        {
-            get;
-            set;
-        }
+        public string Title { get; set; }
 
-        public ICommand ItemSelectedCommand
-        {
-            get;
-            set;
-        }
+        public ToDoItem SelectedItem { get; set; }
+
+
+        public ICommand ItemSelectedCommand { get; set; }
+
 
         public ICommand AddItemCommand
         {
@@ -37,11 +33,12 @@ namespace ToDoRealm.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new ToDoItemPage(new ToDoItemViewModel(string.Empty))));
+                    await Shell.Current.GoToAsync($"itempage?id={string.Empty}");
                 });
             }
         }
 
+        [Reactive]
         public IEnumerable<ToDoItem> Items { get; private set; }
 
 
@@ -50,15 +47,15 @@ namespace ToDoRealm.ViewModels
             _realm = Realm.GetInstance();
             Title = "ToDo";
             Items = _realm.All<ToDoItem>();
-            ItemSelectedCommand = new Command<string>(OnItemSelected);
+            ItemSelectedCommand = new Command(OnItemSelected);
 
         }
 
-        async void OnItemSelected(string id)
+        async void OnItemSelected()
         {
 
-            await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new ToDoItemPage(new ToDoItemViewModel(id))));
-
+            await Shell.Current.GoToAsync($"itempage?id={SelectedItem.Id}");
+            SelectedItem = null;
         }
 
 

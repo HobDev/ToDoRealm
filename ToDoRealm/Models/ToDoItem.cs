@@ -1,10 +1,9 @@
 ﻿using System;
-using PropertyChanged;
 using Realms;
 
 namespace ToDoRealm.Models
 {
-    [DoNotNotify]
+
     public class ToDoItem : RealmObject
     {
         [PrimaryKey]

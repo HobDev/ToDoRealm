@@ -12,16 +12,12 @@ namespace ToDoRealm.Views
 
     public partial class ToDoItemPage : ContentPage
     {
-        public ToDoItem Item { get; set; }
 
-        ToDoItemViewModel viewModel;
-
-
-        public ToDoItemPage(ToDoItemViewModel viewModel)
+        public ToDoItemPage()
         {
             InitializeComponent();
 
-            BindingContext = this.viewModel = viewModel;
+            BindingContext = new ToDoItemViewModel();
         }
 
 
