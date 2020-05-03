@@ -3,7 +3,8 @@
        xmlns="http://xamarin.com/schemas/2014/forms"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:ToDoRealm.Views"
-       Title="ToDoRealm">
+       Title="ToDoRealm"
+       FlyoutBehavior="Disabled">
     <!--
         Styles and Resources
     -->
@@ -29,8 +30,11 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <ShellContent ContentTemplate="{DataTemplate local:ToDoListPage}"
-                  Route="listpage"
+
+
+
+    <ShellContent ContentTemplate="{DataTemplate local:EmployeeListPage}"
+                  Route="employeelistpage"
                   Style="{StaticResource GlobalStyle}" />
 
 </Shell>

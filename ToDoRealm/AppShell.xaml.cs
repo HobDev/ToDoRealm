@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using ToDoRealm.Views;
+﻿using ToDoRealm.Views;
 using Xamarin.Forms;
 
 namespace ToDoRealm
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Shell
     {
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute("itempage", typeof(ToDoItemPage));
+
+            Routing.RegisterRoute("todoitempage", typeof(ToDoItemPage));
+            Routing.RegisterRoute("employeepage", typeof(EmployeePage));
+            Routing.RegisterRoute("todolistpage", typeof(ToDoListPage));
         }
     }
 }

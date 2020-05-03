@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Realms;
 
 namespace ToDoRealm.Models
@@ -11,5 +12,7 @@ namespace ToDoRealm.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Done { get; set; }
+
+        public Assignee Employee { get; set; }
     }
 }

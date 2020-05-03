@@ -13,6 +13,7 @@ namespace ToDoRealm
         public App()
         {
             InitializeComponent();
+            Device.SetFlags(new string[] { "SwipeView_Experimental" });
             MainPage = new AppShell();
         }
 

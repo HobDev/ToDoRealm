@@ -1,27 +1,21 @@
-using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-
-using ToDoRealm.Models;
-using ToDoRealm.Views;
-using System.Windows.Input;
-using Realms;
 using System.Collections.Generic;
-using ReactiveUI.Fody.Helpers;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using ReactiveUI;
+using Realms;
+using ToDoRealm.Models;
+using Xamarin.Forms;
 
 namespace ToDoRealm.ViewModels
 {
 
-    public class ToDoListViewModel
+    public class ToDoListViewModel : ReactiveObject
     {
 
         Realm _realm;
 
-        public string Title { get; set; }
 
-        public ToDoItem SelectedItem { get; set; }
+        public string Title { get; set; }
 
 
         public ICommand ItemSelectedCommand { get; set; }
@@ -33,13 +27,13 @@ namespace ToDoRealm.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await Shell.Current.GoToAsync($"itempage?id={string.Empty}");
+                    await Shell.Current.GoToAsync($"itempage");
                 });
             }
         }
 
-        [Reactive]
-        public IEnumerable<ToDoItem> Items { get; private set; }
+
+        public IEnumerable<ToDoItem> Items { get; set; }
 
 
         public ToDoListViewModel()
@@ -47,15 +41,17 @@ namespace ToDoRealm.ViewModels
             _realm = Realm.GetInstance();
             Title = "ToDo";
             Items = _realm.All<ToDoItem>();
-            ItemSelectedCommand = new Command(OnItemSelected);
+            ItemSelectedCommand = new Command<ToDoItem>(async (item) => await OnItemSelected(item));
 
         }
 
-        async void OnItemSelected()
+
+
+        async Task OnItemSelected(ToDoItem item)
         {
 
-            await Shell.Current.GoToAsync($"itempage?id={SelectedItem.Id}");
-            SelectedItem = null;
+            await Shell.Current.GoToAsync($"itempage?id={item.Id}");
+
         }
 
 

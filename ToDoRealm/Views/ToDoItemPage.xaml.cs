@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using ToDoRealm.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using ToDoRealm.Models;
-using ToDoRealm.ViewModels;
 
 namespace ToDoRealm.Views
 {

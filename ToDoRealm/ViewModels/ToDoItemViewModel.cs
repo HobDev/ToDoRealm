@@ -1,19 +1,22 @@
 using System;
-using ToDoRealm.Models;
-using System.Windows.Input;
-using Xamarin.Forms;
-using System.Threading.Tasks;
-using Realms;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Realms;
+using ToDoRealm.Models;
+using Xamarin.Forms;
 
 namespace ToDoRealm.ViewModels
 {
     [QueryProperty("Id", "id")]
-    public class ToDoItemViewModel
+    public class ToDoItemViewModel : ReactiveObject
     {
 
         Realm _realm;
+        bool update = false;
         [Reactive]
         public ToDoItem Item { get; set; }
         string id;
@@ -21,25 +24,17 @@ namespace ToDoRealm.ViewModels
         public string Id
         {
 
+            get { return id; }
             set
             {
                 id = Uri.UnescapeDataString(value);
-                if (id != string.Empty)
-                {
-                    SetValues();
-                }
 
             }
 
-            get
-            {
-                return id;
-            }
+
         }
 
-
-
-        bool update = false;
+        public ICommand SetValuesCommand { get; set; }
 
         public ICommand SaveButtonCommand { get; set; }
 
@@ -47,12 +42,12 @@ namespace ToDoRealm.ViewModels
         {
             get
             {
-                return new Command(() =>
+                return new Command(async () =>
                 {
                     if (Item == null)
                         return;
                     _realm.Write(() => _realm.Remove(Item));
-                    Shell.Current.SendBackButtonPressed();
+                    await Shell.Current.GoToAsync("..");
                 });
             }
         }
@@ -61,12 +56,17 @@ namespace ToDoRealm.ViewModels
 
         public ToDoItemViewModel()
         {
+
             _realm = Realm.GetInstance();
             Item = new ToDoItem();
             SaveButtonCommand = new Command(async () => await SaveToDoItem());
+            SetValuesCommand = new Command(async () => await SetValues());
+            this.WhenAnyValue(x => x.Id)
+    .Where(x => !String.IsNullOrWhiteSpace(x))
+    .InvokeCommand(SetValuesCommand);
         }
 
-        private void SetValues()
+        async Task SetValues()
         {
             Item = _realm.Find<ToDoItem>(Id);
             update = true;
@@ -77,23 +77,18 @@ namespace ToDoRealm.ViewModels
 
             if (string.IsNullOrWhiteSpace(Item.Name) && string.IsNullOrWhiteSpace(Item.Description))
                 return;
+            if (Item == null)
+                Item = new ToDoItem();
             _realm.Write(() =>
             {
-                if (update)
-                {
-                    //Item.Name = Name;
-                    //Item.Description = Description;
-                    //Item.Done = Done;
-                }
-
-                else
+                if (!update)
                 {
                     _realm.Add(Item);
                 }
 
             });
 
-            Shell.Current.SendBackButtonPressed();
+            await Shell.Current.GoToAsync("..");
         }
     }
 }
