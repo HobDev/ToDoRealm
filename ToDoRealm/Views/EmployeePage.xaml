@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ContentPage x:Class="ToDoRealm.Views.ToDoItemPage"
+<ContentPage x:Class="ToDoRealm.Views.EmployeePage"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Shell.BackgroundColor="#0000ff">
-
+             Shell.BackgroundColor="#ff0066">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding SaveButtonCommand}" Text="Save" />
         <ToolbarItem Command="{Binding DeleteButtonCommand}" Text="Delete" />
@@ -12,14 +11,12 @@
                  Spacing="0"
                  VerticalOptions="StartAndExpand">
         <Label FontSize="Medium" Text="Name" />
-        <Entry FontSize="Small" Text="{Binding Item.Name}" />
+        <Entry FontSize="Small" Text="{Binding Employee.Name}" />
         <Label Margin="0,10,0,0"
                FontSize="Medium"
-               Text="Notes" />
+               Text="Role" />
         <Editor Margin="0"
                 FontSize="Small"
-                Text="{Binding Item.Description}" />
-        <Label Margin="0,10,0,0" Text="Done" />
-        <Switch HorizontalOptions="Start" IsToggled="{Binding Item.Done}" />
+                Text="{Binding Employee.Role}" />
     </StackLayout>
 </ContentPage>

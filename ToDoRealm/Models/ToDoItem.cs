@@ -13,6 +13,7 @@ namespace ToDoRealm.Models
         public string Description { get; set; }
         public bool Done { get; set; }
 
+
         public Assignee Employee { get; set; }
     }
 }

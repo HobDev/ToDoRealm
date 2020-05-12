@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Realms;
@@ -15,10 +16,11 @@ namespace ToDoRealm.ViewModels
         public string Title { get; set; }
 
 
-        public ICommand ItemSelectedCommand { get; set; }
+        public ICommand EmployeeSelectedCommand { get; set; }
+        public ICommand DeleteEmployeeCommand { get; set; }
+        public ICommand EditEmployeeCommand { get; set; }
 
-
-        public ICommand AddItemCommand
+        public ICommand AddEmployeeCommand
         {
             get
             {
@@ -35,15 +37,28 @@ namespace ToDoRealm.ViewModels
         public EmployeeListViewModel()
         {
             _realm = Realm.GetInstance();
-            Title = "Employees";
             Employees = _realm.All<Assignee>();
-            ItemSelectedCommand = new Command<Assignee>(async (assignee) => await OnItemSelected(assignee));
+            EmployeeSelectedCommand = new Command<Assignee>(async (assignee) => await OnEmployeeSelected(assignee));
+            DeleteEmployeeCommand = new Command<Assignee>(async (assignee) => await DeleteEmployee(assignee));
+            EditEmployeeCommand = new Command<Assignee>(async (assignee) => await EditEmployee(assignee));
         }
 
-        async Task OnItemSelected(Assignee assignee)
+        async Task EditEmployee(Assignee assignee)
+        {
+            await Shell.Current.GoToAsync($"employeepage?employeeid={assignee.Id}");
+        }
+
+        async Task DeleteEmployee(Assignee assignee)
+        {
+            if (assignee == null)
+                return;
+            _realm.Write(() => _realm.Remove(assignee));
+        }
+
+        async Task OnEmployeeSelected(Assignee assignee)
         {
 
-            await Shell.Current.GoToAsync($"todolistpage?id={assignee.Id}");
+            await Shell.Current.GoToAsync($"todolistpage?employeeid={assignee.Id}");
 
         }
 

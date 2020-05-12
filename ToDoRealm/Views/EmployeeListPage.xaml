@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="ToDoRealm.Views.EmployeeListPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Employees"
+             Shell.BackgroundColor="#ff0066">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddEmployeeCommand}" Text="Add" />
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+
+
+        <CollectionView x:Name="ItemsCollectionView" ItemsSource="{Binding Employees}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem BackgroundColor="LightGreen"
+                                           Command="{Binding Source={x:Reference ItemsCollectionView}, Path=BindingContext.DeleteEmployeeCommand}"
+                                           CommandParameter="{Binding .}"
+                                           Text="Delete" />
+                                <SwipeItem BackgroundColor="LightYellow"
+                                           Command="{Binding Source={x:Reference ItemsCollectionView}, Path=BindingContext.EditEmployeeCommand}"
+                                           CommandParameter="{Binding .}"
+                                           Text="Edit" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <StackLayout Padding="10">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference ItemsCollectionView}, Path=BindingContext.EmployeeSelectedCommand}" CommandParameter="{Binding .}" />
+                            </StackLayout.GestureRecognizers>
+                            <Label FontSize="16"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemTextStyle}"
+                                   Text="{Binding Name}" />
+                            <Label FontSize="13"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemDetailTextStyle}"
+                                   Text="{Binding Role}" />
+                        </StackLayout>
+                    </SwipeView>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+    </StackLayout>
+</ContentPage>

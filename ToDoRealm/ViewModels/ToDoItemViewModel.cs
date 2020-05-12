@@ -11,7 +11,8 @@ using Xamarin.Forms;
 
 namespace ToDoRealm.ViewModels
 {
-    [QueryProperty("Id", "id")]
+    [QueryProperty("ToDoItemId", "todoitemid")]
+    [QueryProperty("EmployeeId", "employeeid")]
     public class ToDoItemViewModel : ReactiveObject
     {
 
@@ -19,22 +20,39 @@ namespace ToDoRealm.ViewModels
         bool update = false;
         [Reactive]
         public ToDoItem Item { get; set; }
-        string id;
         [Reactive]
-        public string Id
+        public Assignee Employee { get; set; }
+        string todoitemid;
+        [Reactive]
+        public string ToDoItemId
         {
 
-            get { return id; }
+            get { return todoitemid; }
             set
             {
-                id = Uri.UnescapeDataString(value);
+                todoitemid = Uri.UnescapeDataString(value);
+
+            }
+        }
+
+
+        string employeeid;
+        [Reactive]
+        public string EmployeeId
+        {
+
+            get { return employeeid; }
+            set
+            {
+                employeeid = Uri.UnescapeDataString(value);
 
             }
 
-
         }
 
-        public ICommand SetValuesCommand { get; set; }
+        public ICommand SetEmployeeCommand { get; set; }
+
+        public ICommand SetToDoItemCommand { get; set; }
 
         public ICommand SaveButtonCommand { get; set; }
 
@@ -60,15 +78,26 @@ namespace ToDoRealm.ViewModels
             _realm = Realm.GetInstance();
             Item = new ToDoItem();
             SaveButtonCommand = new Command(async () => await SaveToDoItem());
-            SetValuesCommand = new Command(async () => await SetValues());
-            this.WhenAnyValue(x => x.Id)
+            SetToDoItemCommand = new Command(async () => await SetToDoItem());
+            SetEmployeeCommand = new Command(async () => SetEmployee());
+
+            this.WhenAnyValue(x => x.ToDoItemId)
     .Where(x => !String.IsNullOrWhiteSpace(x))
-    .InvokeCommand(SetValuesCommand);
+    .InvokeCommand(SetToDoItemCommand);
+
+            this.WhenAnyValue(x => x.EmployeeId)
+   .Where(x => !String.IsNullOrWhiteSpace(x))
+   .InvokeCommand(SetEmployeeCommand);
         }
 
-        async Task SetValues()
+        private void SetEmployee()
         {
-            Item = _realm.Find<ToDoItem>(Id);
+            Employee = _realm.Find<Assignee>(EmployeeId);
+        }
+
+        async Task SetToDoItem()
+        {
+            Item = _realm.Find<ToDoItem>(ToDoItemId);
             update = true;
         }
 
@@ -83,6 +112,7 @@ namespace ToDoRealm.ViewModels
             {
                 if (!update)
                 {
+                    Item.Employee = Employee;
                     _realm.Add(Item);
                 }
 

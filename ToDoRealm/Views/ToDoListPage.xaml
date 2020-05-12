@@ -2,44 +2,52 @@
 <ContentPage x:Class="ToDoRealm.Views.ToDoListPage"
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             Shell.BackgroundColor="#0000ff">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding AddItemCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
     <StackLayout>
 
-        <SwipeView>
 
-            <SwipeView.RightItems>
-                <SwipeItems>
-                    <SwipeItem BackgroundColor="LightGreen"
-                               Command="{Binding DeleteCommand}"
-                               Text="Delete" />
-                    <SwipeItem BackgroundColor="LightYellow"
-                               Command="{Binding EditCommand}"
-                               Text="Edit" />
-                </SwipeItems>
-            </SwipeView.RightItems>
-            <CollectionView x:Name="ItemsCollectionView" ItemsSource="{Binding Items}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="10">
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={x:Reference ItemsCollectionView}, Path=BindingContext.ItemSelectedCommand}" CommandParameter="{Binding .}" />
-                            </StackLayout.GestureRecognizers>
-                            <Label FontSize="16"
-                                   LineBreakMode="NoWrap"
-                                   Style="{DynamicResource ListItemTextStyle}"
-                                   Text="{Binding Name}" />
-                            <Label FontSize="13"
-                                   LineBreakMode="NoWrap"
-                                   Style="{DynamicResource ListItemDetailTextStyle}"
-                                   Text="{Binding Description}" />
+        <CollectionView x:Name="ItemsCollectionView" ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem BackgroundColor="LightGreen"
+                                           Command="{Binding Source={x:Reference ItemsCollectionView}, Path=BindingContext.DeleteToDoItemCommand}"
+                                           CommandParameter="{Binding .}"
+                                           Text="Delete" />
+                                <SwipeItem BackgroundColor="LightYellow"
+                                           Command="{Binding Source={x:Reference ItemsCollectionView}, Path=BindingContext.EditToDoItemCommand}"
+                                           CommandParameter="{Binding .}"
+                                           Text="Edit" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                            <StackLayout Padding="10" HorizontalOptions="StartAndExpand">
+
+                                <Label FontSize="16"
+                                       LineBreakMode="NoWrap"
+                                       Style="{DynamicResource ListItemTextStyle}"
+                                       Text="{Binding Name}" />
+                                <Label FontSize="13"
+                                       LineBreakMode="NoWrap"
+                                       Style="{DynamicResource ListItemDetailTextStyle}"
+                                       Text="{Binding Description}" />
+                            </StackLayout>
+                            <CheckBox IsChecked="{Binding Done}"
+                                      VerticalOptions="Center"
+                                      Color="#0000ff" />
                         </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </SwipeView>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
 
 
 
