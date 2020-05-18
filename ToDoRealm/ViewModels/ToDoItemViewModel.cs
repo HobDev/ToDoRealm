@@ -79,7 +79,7 @@ namespace ToDoRealm.ViewModels
             Item = new ToDoItem();
             SaveButtonCommand = new Command(async () => await SaveToDoItem());
             SetToDoItemCommand = new Command(async () => await SetToDoItem());
-            SetEmployeeCommand = new Command(async () => SetEmployee());
+            SetEmployeeCommand = new Command(async () => await SetEmployee());
 
             this.WhenAnyValue(x => x.ToDoItemId)
     .Where(x => !String.IsNullOrWhiteSpace(x))
@@ -90,7 +90,7 @@ namespace ToDoRealm.ViewModels
    .InvokeCommand(SetEmployeeCommand);
         }
 
-        private void SetEmployee()
+        async Task SetEmployee()
         {
             Employee = _realm.Find<Assignee>(EmployeeId);
         }
@@ -112,8 +112,10 @@ namespace ToDoRealm.ViewModels
             {
                 if (!update)
                 {
+
                     Item.Employee = Employee;
                     _realm.Add(Item);
+
                 }
 
             });

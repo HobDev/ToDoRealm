@@ -6,6 +6,11 @@ namespace ToDoRealm.Models
 {
     public class Assignee : RealmObject
     {
+        public Assignee()
+        {
+            ToDoItems = Enumerable.Empty<ToDoItem>().AsQueryable();
+        }
+
         [PrimaryKey]
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }

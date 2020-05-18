@@ -48,15 +48,19 @@ namespace ToDoRealm.ViewModels
             }
         }
 
-
+        [Reactive]
         public IEnumerable<ToDoItem> Items { get; set; }
 
 
         public ToDoListViewModel()
         {
             _realm = Realm.GetInstance();
-            Title = "ToDo";
-            Items = _realm.All<ToDoItem>().Where(x => x.Employee.Id == EmployeeId);
+            if (!string.IsNullOrWhiteSpace(EmployeeId))
+            {
+                Items = _realm.All<ToDoItem>().Where(x => x.Employee == Employee);
+            }
+
+            _realm.RealmChanged += _realm_RealmChanged;
             DeleteToDoItemCommand = new Command<ToDoItem>(async (item) => await DeleteToDoItem(item));
             EditToDoItemCommand = new Command<ToDoItem>(async (item) => await EditToDoItem(item));
             SetValuesCommand = new Command(async () => await SetValues());
@@ -65,11 +69,16 @@ namespace ToDoRealm.ViewModels
   .InvokeCommand(SetValuesCommand);
         }
 
+        private void _realm_RealmChanged(object sender, EventArgs e)
+        {
+            Items = _realm.All<ToDoItem>().Where(x => x.Employee == Employee);
+        }
+
         async Task SetValues()
         {
             Employee = _realm.Find<Assignee>(EmployeeId);
             Title = Employee.Name;
-            Items = _realm.All<ToDoItem>().Where(x => x.Employee.Id == EmployeeId);
+            Items = _realm.All<ToDoItem>().Where(x => x.Employee == Employee);
 
         }
 
