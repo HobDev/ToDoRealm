@@ -4,6 +4,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="{Binding Title}"
              Shell.BackgroundColor="#0000ff">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackButtonCommand}" />
+    </Shell.BackButtonBehavior>
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding AddItemCommand}" Text="Add" />
     </ContentPage.ToolbarItems>

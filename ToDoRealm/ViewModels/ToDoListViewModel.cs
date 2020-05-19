@@ -8,11 +8,12 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Realms;
 using ToDoRealm.Models;
+using ToDoRealm.Views;
 using Xamarin.Forms;
 
 namespace ToDoRealm.ViewModels
 {
-    [QueryProperty("EmployeeId", "employeeid")]
+    [QueryProperty(nameof(EmployeeId), nameof(EmployeeId))]
     public class ToDoListViewModel : ReactiveObject
     {
 
@@ -33,6 +34,7 @@ namespace ToDoRealm.ViewModels
             }
         }
 
+        public ICommand BackButtonCommand { get; set; }
         public ICommand DeleteToDoItemCommand { get; set; }
         public ICommand EditToDoItemCommand { get; set; }
         public ICommand SetValuesCommand { get; set; }
@@ -43,7 +45,7 @@ namespace ToDoRealm.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await Shell.Current.GoToAsync($"todoitempage?employeeid={EmployeeId}");
+                    await Shell.Current.GoToAsync($"{nameof(ToDoItemPage)}?EmployeeId={EmployeeId}");
                 });
             }
         }
@@ -55,12 +57,8 @@ namespace ToDoRealm.ViewModels
         public ToDoListViewModel()
         {
             _realm = Realm.GetInstance();
-            if (!string.IsNullOrWhiteSpace(EmployeeId))
-            {
-                Items = _realm.All<ToDoItem>().Where(x => x.Employee == Employee);
-            }
 
-            _realm.RealmChanged += _realm_RealmChanged;
+            BackButtonCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(EmployeeListPage)));
             DeleteToDoItemCommand = new Command<ToDoItem>(async (item) => await DeleteToDoItem(item));
             EditToDoItemCommand = new Command<ToDoItem>(async (item) => await EditToDoItem(item));
             SetValuesCommand = new Command(async () => await SetValues());
@@ -69,10 +67,7 @@ namespace ToDoRealm.ViewModels
   .InvokeCommand(SetValuesCommand);
         }
 
-        private void _realm_RealmChanged(object sender, EventArgs e)
-        {
-            Items = _realm.All<ToDoItem>().Where(x => x.Employee == Employee);
-        }
+
 
         async Task SetValues()
         {
@@ -84,7 +79,7 @@ namespace ToDoRealm.ViewModels
 
         async Task EditToDoItem(ToDoItem item)
         {
-            await Shell.Current.GoToAsync($"todoitempage?todoitemid={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ToDoItemPage)}?ToDoItemId={item.Id}");
         }
 
         async Task DeleteToDoItem(ToDoItem item)

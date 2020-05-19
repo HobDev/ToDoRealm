@@ -7,12 +7,13 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Realms;
 using ToDoRealm.Models;
+using ToDoRealm.Views;
 using Xamarin.Forms;
 
 namespace ToDoRealm.ViewModels
 {
-    [QueryProperty("ToDoItemId", "todoitemid")]
-    [QueryProperty("EmployeeId", "employeeid")]
+    [QueryProperty(nameof(ToDoItemId), nameof(ToDoItemId))]
+    [QueryProperty(nameof(EmployeeId), nameof(EmployeeId))]
     public class ToDoItemViewModel : ReactiveObject
     {
 
@@ -50,6 +51,8 @@ namespace ToDoRealm.ViewModels
 
         }
 
+        public ICommand BackButtonCommand { get; set; }
+
         public ICommand SetEmployeeCommand { get; set; }
 
         public ICommand SetToDoItemCommand { get; set; }
@@ -65,7 +68,7 @@ namespace ToDoRealm.ViewModels
                     if (Item == null)
                         return;
                     _realm.Write(() => _realm.Remove(Item));
-                    await Shell.Current.GoToAsync("..");
+                    await Shell.Current.GoToAsync($"{nameof(ToDoListPage)}?EmployeeId={EmployeeId}");
                 });
             }
         }
@@ -77,6 +80,7 @@ namespace ToDoRealm.ViewModels
 
             _realm = Realm.GetInstance();
             Item = new ToDoItem();
+            BackButtonCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(ToDoListPage)));
             SaveButtonCommand = new Command(async () => await SaveToDoItem());
             SetToDoItemCommand = new Command(async () => await SetToDoItem());
             SetEmployeeCommand = new Command(async () => await SetEmployee());
@@ -98,6 +102,7 @@ namespace ToDoRealm.ViewModels
         async Task SetToDoItem()
         {
             Item = _realm.Find<ToDoItem>(ToDoItemId);
+            EmployeeId = Item.Employee.Id;
             update = true;
         }
 
@@ -120,7 +125,7 @@ namespace ToDoRealm.ViewModels
 
             });
 
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync($"{nameof(ToDoListPage)}?EmployeeId={EmployeeId}");
         }
     }
 }

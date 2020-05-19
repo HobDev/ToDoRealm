@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace ToDoRealm.ViewModels
 {
-    [QueryProperty("EmployeeId", "employeeid")]
+    [QueryProperty(nameof(EmployeeId), nameof(EmployeeId))]
     public class EmployeeViewModel : ReactiveObject
     {
         Realm _realm;

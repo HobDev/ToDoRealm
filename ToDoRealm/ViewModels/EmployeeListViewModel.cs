@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Realms;
 using ToDoRealm.Models;
+using ToDoRealm.Views;
 using Xamarin.Forms;
 
 namespace ToDoRealm.ViewModels
@@ -26,7 +27,7 @@ namespace ToDoRealm.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await Shell.Current.GoToAsync($"employeepage");
+                    await Shell.Current.GoToAsync(nameof(EmployeePage));
                 });
             }
         }
@@ -45,7 +46,7 @@ namespace ToDoRealm.ViewModels
 
         async Task EditEmployee(Assignee assignee)
         {
-            await Shell.Current.GoToAsync($"employeepage?employeeid={assignee.Id}");
+            await Shell.Current.GoToAsync($"{nameof(EmployeePage)}?EmployeeId={assignee.Id}");
         }
 
         async Task DeleteEmployee(Assignee assignee)
@@ -58,7 +59,7 @@ namespace ToDoRealm.ViewModels
         async Task OnEmployeeSelected(Assignee assignee)
         {
 
-            await Shell.Current.GoToAsync($"todolistpage?employeeid={assignee.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ToDoListPage)}?EmployeeId={assignee.Id}");
 
         }
 
