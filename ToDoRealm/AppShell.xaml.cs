@@ -9,9 +9,9 @@ namespace ToDoRealm
         {
             InitializeComponent();
 
-            Routing.RegisterRoute(nameof(ToDoItemPage), typeof(ToDoItemPage));
-            Routing.RegisterRoute(nameof(EmployeePage), typeof(EmployeePage));
-            Routing.RegisterRoute(nameof(ToDoListPage), typeof(ToDoListPage));
+            Routing.RegisterRoute("todoitempage", typeof(ToDoItemPage));
+            Routing.RegisterRoute("employeepage", typeof(EmployeePage));
+            Routing.RegisterRoute("todolistpage", typeof(ToDoListPage));
         }
     }
 }

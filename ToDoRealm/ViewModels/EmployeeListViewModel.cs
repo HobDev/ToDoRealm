@@ -27,7 +27,7 @@ namespace ToDoRealm.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await Shell.Current.GoToAsync(nameof(EmployeePage));
+                    await Shell.Current.GoToAsync($"employeepage");
                 });
             }
         }
@@ -46,7 +46,7 @@ namespace ToDoRealm.ViewModels
 
         async Task EditEmployee(Assignee assignee)
         {
-            await Shell.Current.GoToAsync($"{nameof(EmployeePage)}?EmployeeId={assignee.Id}");
+            await Shell.Current.GoToAsync($"employeepage?EmployeeId={assignee.Id}");
         }
 
         async Task DeleteEmployee(Assignee assignee)
@@ -59,7 +59,7 @@ namespace ToDoRealm.ViewModels
         async Task OnEmployeeSelected(Assignee assignee)
         {
 
-            await Shell.Current.GoToAsync($"{nameof(ToDoListPage)}?EmployeeId={assignee.Id}");
+            await Shell.Current.GoToAsync($"todolistpage?EmployeeId={assignee.Id}");
 
         }
 

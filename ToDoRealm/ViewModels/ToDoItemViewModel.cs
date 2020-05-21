@@ -68,7 +68,7 @@ namespace ToDoRealm.ViewModels
                     if (Item == null)
                         return;
                     _realm.Write(() => _realm.Remove(Item));
-                    await Shell.Current.GoToAsync($"{nameof(ToDoListPage)}?EmployeeId={EmployeeId}");
+                    await Shell.Current.GoToAsync($"todolistpage?EmployeeId={EmployeeId}");
                 });
             }
         }
@@ -80,7 +80,7 @@ namespace ToDoRealm.ViewModels
 
             _realm = Realm.GetInstance();
             Item = new ToDoItem();
-            BackButtonCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(ToDoListPage)));
+            BackButtonCommand = new Command(async () => await Shell.Current.GoToAsync($"todolistpage?EmployeeId={EmployeeId}"));
             SaveButtonCommand = new Command(async () => await SaveToDoItem());
             SetToDoItemCommand = new Command(async () => await SetToDoItem());
             SetEmployeeCommand = new Command(async () => await SetEmployee());
@@ -125,7 +125,7 @@ namespace ToDoRealm.ViewModels
 
             });
 
-            await Shell.Current.GoToAsync($"{nameof(ToDoListPage)}?EmployeeId={EmployeeId}");
+            await Shell.Current.GoToAsync($"todolistpage?EmployeeId={EmployeeId}");
         }
     }
 }

@@ -45,7 +45,7 @@ namespace ToDoRealm.ViewModels
             {
                 return new Command(async () =>
                 {
-                    await Shell.Current.GoToAsync($"{nameof(ToDoItemPage)}?EmployeeId={EmployeeId}");
+                    await Shell.Current.GoToAsync($"todoitempage?EmployeeId={EmployeeId}");
                 });
             }
         }
@@ -58,7 +58,7 @@ namespace ToDoRealm.ViewModels
         {
             _realm = Realm.GetInstance();
 
-            BackButtonCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(EmployeeListPage)));
+            BackButtonCommand = new Command(async () => await Shell.Current.GoToAsync("///employeelistpage"));
             DeleteToDoItemCommand = new Command<ToDoItem>(async (item) => await DeleteToDoItem(item));
             EditToDoItemCommand = new Command<ToDoItem>(async (item) => await EditToDoItem(item));
             SetValuesCommand = new Command(async () => await SetValues());
@@ -79,7 +79,7 @@ namespace ToDoRealm.ViewModels
 
         async Task EditToDoItem(ToDoItem item)
         {
-            await Shell.Current.GoToAsync($"{nameof(ToDoItemPage)}?ToDoItemId={item.Id}");
+            await Shell.Current.GoToAsync($"todoitempage?ToDoItemId={item.Id}");
         }
 
         async Task DeleteToDoItem(ToDoItem item)
